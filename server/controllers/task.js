@@ -8,7 +8,7 @@ export const createTask = async(req, res, next) => {
     try {
         if (!title || !description) {
             return next(
-                createHttpError(400, "Title description fields are required"}
+                createHttpError(400, "Title description fields are required")
         );
     }
         const task = await Task.create({
@@ -37,16 +37,19 @@ export const getUserTasks = async(req, res, next)=> {
     const {id:userId} = req.user;
     try {
         const user = await User.findbyId(userId);
-        return next(createHttpError(404, "User not found"));
-    }
-    const task = await Task.find({userid: userId}).sort({_id: -1});
+        if(!user) {
+         return next(createHttpError(404, "User not found"));
+        }
+    
+    const tasks = await Task.find({userid: userId}).sort({_id: -1});
     res.status(200).json(tasks);
-} catch (error) {
+    }
+catch (error) {
     next (error);
 }
 };
 
-export deleteTask = async(req, res, next)=> {
+export const deleteTask = async(req, res, next)=> {
     const {Id:userId} = req.user;
     const {taskId} = req.params
     try {
@@ -72,7 +75,7 @@ const {id:taskId} = req.params;
 const {title, description, tags} = req.body;
 try{
     if (!taskId) {
-        return next(createHttpError(400, "TaskId is required));
+        return next(createHttpError(400, "TaskId is required"));
     }
     const task = await Task.findById(taskId)
     if (!task) {
@@ -81,9 +84,9 @@ try{
     if (!task.userId.equals(userId)) {
         return (createHttpError(404, "Unauthorized to perform this request"));
     }
-    task.title = title || 
+    task.title = title || task.title
     task.description = description || task.description;
-    task.tags = tags || task.;
+    task.tags = tags || task;
     const updatedTask = await task.save();
     re.status(200).json(updatedTask);
 } catch (error) {

@@ -2,11 +2,13 @@ import express, { json } from "express";
 import dotenv from "dotenv";
 import createHttpError, { isHttpError } from "http-errors";
 import userRoutes from "./routes/user.js";
-import taskRoutes from "./routes/task.js"
+import taskRoutes from "./routes/task.js";
+import cors from "cors";
 
 dotenv.config();
 
 const app = express();
+app.use(cors());
 app.use(json());
 
 //Create route
