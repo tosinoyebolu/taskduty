@@ -2,7 +2,7 @@ import express, { json } from "express";
 import dotenv from "dotenv";
 import createHttpError, { isHttpError } from "http-errors";
 import userRoutes from "./routes/user.js";
-import taskRoutes from "/routes/task.js"
+import taskRoutes from "./routes/task.js"
 
 dotenv.config();
 
