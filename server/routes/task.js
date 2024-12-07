@@ -6,6 +6,7 @@ import {
   deleteTask,
   updateTask,
 } from "../controllers/task.js";
+import verifyToken from "../middleware/verifyToken.js";
 
 const router = express.Router();
 
